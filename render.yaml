@@ -1,0 +1,40 @@
+# Blueprint لاستضافة الخادم ونسخة الويب على Render.
+# تنبيه: الخطة المجانية بلا قرص دائم، فتُفقد قاعدة البيانات (الأرصدة) عند كل إعادة نشر أو إعادة تشغيل.
+# مناسبة للتجربة فقط. للاستخدام الحقيقي غيّر plan إلى starter وفعّل قسم disk أدناه.
+services:
+  - type: web
+    name: rewards-app
+    runtime: node
+    plan: free
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    healthCheckPath: /health
+    # للاستخدام الحقيقي (خطة مدفوعة): ألغِ التعليق عن القسم التالي وغيّر DB_PATH
+    # disk:
+    #   name: rewards-data
+    #   mountPath: /var/data
+    #   sizeGB: 1
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: JWT_SECRET
+        generateValue: true
+      - key: POSTBACK_SECRET
+        generateValue: true
+      - key: ADMIN_KEY
+        generateValue: true
+      - key: DB_PATH
+        value: ./data.db # مع القرص الدائم: /var/data/data.db
+      - key: REWARD_SHARE
+        value: "0.6"
+      - key: MIN_WITHDRAW
+        value: "5"
+      - key: PAYPAL_ENV
+        value: sandbox
+      # تُملأ يدوياً من لوحة Render بعد إنشاء الخدمة
+      - key: OFFERWALL_URL_TEMPLATE
+        sync: false
+      - key: PAYPAL_CLIENT_ID
+        sync: false
+      - key: PAYPAL_CLIENT_SECRET
+        sync: false
