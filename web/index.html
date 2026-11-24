@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1f5adc">
+  <title>Rewards</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icon-192.png">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main>
+    <p id="msg" role="status"></p>
+
+    <section id="view-auth" hidden>
+      <h1 id="auth-title">تسجيل الدخول</h1>
+      <form id="auth-form">
+        <label>البريد الإلكتروني
+          <input id="email" type="email" autocomplete="email" required>
+        </label>
+        <label>كلمة المرور (8 أحرف على الأقل)
+          <input id="password" type="password" autocomplete="current-password" minlength="8" required>
+        </label>
+        <button id="auth-submit" type="submit">دخول</button>
+      </form>
+      <button id="auth-toggle" class="link" type="button">ليس لدي حساب، إنشاء حساب</button>
+    </section>
+
+    <section id="view-home" hidden>
+      <p class="label">رصيدك</p>
+      <p id="balance" class="balance">$0.00</p>
+      <p id="user-email" class="muted"></p>
+      <button data-go="offers">ابدأ المهام والاستبيانات</button>
+      <button data-go="withdraw" class="secondary">سحب الأرباح إلى PayPal</button>
+      <button data-go="history" class="secondary">السجل</button>
+      <button id="logout" class="link" type="button">تسجيل الخروج</button>
+    </section>
+
+    <section id="view-offers" hidden>
+      <button data-go="home" class="link" type="button">رجوع</button>
+      <p class="muted">إن لم تظهر المهام أدناه، افتحها في تبويب جديد.</p>
+      <a id="offers-open" class="btn secondary" target="_blank" rel="noopener noreferrer">فتح في تبويب جديد</a>
+      <iframe id="offers-frame" title="المهام" referrerpolicy="no-referrer"></iframe>
+    </section>
+
+    <section id="view-withdraw" hidden>
+      <button data-go="home" class="link" type="button">رجوع</button>
+      <h1>سحب إلى PayPal</h1>
+      <p id="wd-info" class="muted"></p>
+      <form id="wd-form">
+        <label>بريد حساب PayPal
+          <input id="wd-email" type="email" required>
+        </label>
+        <label>المبلغ بالدولار
+          <input id="wd-amount" type="number" step="0.01" min="0.01" inputmode="decimal" required>
+        </label>
+        <button type="submit">اطلب السحب</button>
+      </form>
+    </section>
+
+    <section id="view-history" hidden>
+      <button data-go="home" class="link" type="button">رجوع</button>
+      <h2>طلبات السحب</h2>
+      <ul id="wd-list"></ul>
+      <h2>الحركات</h2>
+      <ul id="hist-list"></ul>
+    </section>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -3,6 +3,10 @@ import Database from "better-sqlite3";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import crypto from "node:crypto";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const WEB_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "web");
 
 // ---------- الإعدادات ----------
 const env = process.env;
@@ -194,7 +198,17 @@ async function paypalPayout(w) {
 const app = express();
 app.disable("x-powered-by");
 app.set("trust proxy", 1);
+app.use((_req, res, next) => {
+  res.set({
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "no-referrer",
+  });
+  next();
+});
 app.use(express.json({ limit: "20kb" }));
+// نسخة الويب (PWA) تُخدم من نفس الخادم، فلا حاجة لإعداد CORS
+app.use(express.static(WEB_DIR, { index: "index.html" }));
 
 app.get("/health", (_req, res) => res.json({ ok: true }));
 
